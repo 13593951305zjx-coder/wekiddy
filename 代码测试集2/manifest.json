@@ -1,0 +1,594 @@
+{
+  "name": "code-errors-testcases",
+  "version": "1.0.0",
+  "created": "2026-10-21",
+  "description": "故意的含错代码测试集：3 种语言（Python 3.12 / JavaScript Node 24 / Java 8），12 个长代码文件，42 个已标注错误（6 个语法错误、18 个运行时异常、18 个逻辑错误）。每个错误都可由 verify_all.py 对真实工具链自动复核。",
+  "languages": [
+    "python",
+    "javascript",
+    "java"
+  ],
+  "toolchain": {
+    "python": "3.12.14",
+    "node": "v24.21.0",
+    "java": "1.8.0_461"
+  },
+  "source_rules": {
+    "encoding": "UTF-8 without BOM, pure ASCII source",
+    "min_lines": {
+      "syntax": 120,
+      "runtime": 200,
+      "logic": 170
+    },
+    "min_functions_per_file": 10,
+    "dependencies": "standard library only",
+    "runtime_logic_cli": {
+      "case_arg": "R1..R6 for runtime files, L1..L6 for logic files",
+      "no_arg": "prints usage and exits 0",
+      "unknown_case": "exits 2"
+    }
+  },
+  "verify": {
+    "script": "verify_all.py",
+    "command": "python verify_all.py --strict"
+  },
+  "summary": {
+    "files": 12,
+    "cases": 42,
+    "syntax": 6,
+    "runtime": 18,
+    "logic": 18,
+    "by_language": {
+      "python": {
+        "files": 4,
+        "cases": 14
+      },
+      "javascript": {
+        "files": 4,
+        "cases": 14
+      },
+      "java": {
+        "files": 4,
+        "cases": 14
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "python/syntax_01_missing_colon.py",
+      "language": "python",
+      "kind": "syntax",
+      "lines": 190,
+      "functions": 14,
+      "description": "库存报表程序；if 语句末尾缺少冒号，解析器在错误行停止。"
+    },
+    {
+      "path": "python/syntax_02_literal_assignment.py",
+      "language": "python",
+      "kind": "syntax",
+      "lines": 229,
+      "functions": 14,
+      "description": "订单汇总程序；把字符串字面量当作赋值目标，属于非法赋值。"
+    },
+    {
+      "path": "python/runtime_01_service_pipeline.py",
+      "language": "python",
+      "kind": "runtime",
+      "lines": 394,
+      "functions": 37,
+      "description": "服务订单流水线；6 个可独立触发的运行时异常路径（索引、键、除零、None、类型、数值转换）。"
+    },
+    {
+      "path": "python/logic_01_inventory_report.py",
+      "language": "python",
+      "kind": "logic",
+      "lines": 282,
+      "functions": 25,
+      "description": "库存报表流水线；6 个不抛异常的隐蔽逻辑错误（边界、截断、可变默认参数等）。"
+    },
+    {
+      "path": "javascript/syntax_01_missing_paren.js",
+      "language": "javascript",
+      "kind": "syntax",
+      "lines": 223,
+      "functions": 19,
+      "description": "订单处理脚本；函数调用缺少右括号，node --check 报语法错误。"
+    },
+    {
+      "path": "javascript/syntax_02_invalid_operator.js",
+      "language": "javascript",
+      "kind": "syntax",
+      "lines": 275,
+      "functions": 23,
+      "description": "价格计算脚本；非法运算符序列（+*），node --check 报语法错误。"
+    },
+    {
+      "path": "javascript/runtime_01_order_pipeline.js",
+      "language": "javascript",
+      "kind": "runtime",
+      "lines": 268,
+      "functions": 24,
+      "description": "订单流水线；6 个可独立触发的运行时异常路径（undefined、未声明变量、范围、非函数、JSON、解构）。"
+    },
+    {
+      "path": "javascript/logic_01_cart_report.js",
+      "language": "javascript",
+      "kind": "logic",
+      "lines": 313,
+      "functions": 41,
+      "description": "购物车报表流水线；6 个隐蔽逻辑错误（循环边界、parseInt、var 闭包、字典序排序、浮点、宽松比较）。"
+    },
+    {
+      "path": "java/Syntax01MissingSemicolon.java",
+      "language": "java",
+      "kind": "syntax",
+      "lines": 332,
+      "functions": 34,
+      "description": "库存服务类；语句末尾缺少分号，javac 报 ';' expected。"
+    },
+    {
+      "path": "java/Syntax02MissingParen.java",
+      "language": "java",
+      "kind": "syntax",
+      "lines": 314,
+      "functions": 30,
+      "description": "订单校验类；if 条件缺少右括号，javac 报 ')' expected。"
+    },
+    {
+      "path": "java/Runtime01OrderPipeline.java",
+      "language": "java",
+      "kind": "runtime",
+      "lines": 382,
+      "functions": 41,
+      "description": "订单流水线（Java 8）；6 个可独立触发的运行时异常路径（NPE、越界、数值格式、除零、类型转换、空迭代器）。"
+    },
+    {
+      "path": "java/Logic01CartReport.java",
+      "language": "java",
+      "kind": "logic",
+      "lines": 319,
+      "functions": 34,
+      "description": "购物车报表流水线（Java 8）；6 个隐蔽逻辑错误（整除、字符串 ==、整数溢出、边界、switch 落穿、比较器方向）。"
+    }
+  ],
+  "cases": [
+    {
+      "id": "py-syn-01",
+      "file": "python/syntax_01_missing_colon.py",
+      "line": 137,
+      "error_type": "missing_colon",
+      "diagnostic_pattern": "expected ':'",
+      "description": "summarize_batches 中 if 语句头部缺少结尾冒号，解析器在 if 行报 expected ':'",
+      "language": "python",
+      "kind": "syntax"
+    },
+    {
+      "id": "py-syn-02",
+      "file": "python/syntax_02_literal_assignment.py",
+      "line": 141,
+      "error_type": "literal_assignment",
+      "diagnostic_pattern": "cannot assign to literal",
+      "description": "allocate_supplier_budget 把字符串字面量 \"reorder_total\" 当作赋值目标，应为变量 reorder_total",
+      "language": "python",
+      "kind": "syntax"
+    },
+    {
+      "id": "py-run-R1",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R1",
+      "line": 123,
+      "exception": "IndexError",
+      "message_pattern": "list index out of range",
+      "description": "订单路由索引等于仓库行数，pick_primary_warehouse 访问 rows[index] 越界",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-run-R2",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R2",
+      "line": 150,
+      "exception": "KeyError",
+      "message_pattern": "'SKU-1005'",
+      "description": "新上架 SKU-1005 未登记进定价表，resolve_price_band 查表触发 KeyError",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-run-R3",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R3",
+      "line": 190,
+      "exception": "ZeroDivisionError",
+      "message_pattern": "division by zero",
+      "description": "订单行列表为空，average_line_value 用 0 做除数触发浮点除零",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-run-R4",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R4",
+      "line": 220,
+      "exception": "AttributeError",
+      "message_pattern": "'NoneType' object has no attribute 'strip'",
+      "description": "客户 display_name 为 None，format_customer_name 直接调用 .strip()",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-run-R5",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R5",
+      "line": 238,
+      "exception": "TypeError",
+      "message_pattern": "can only concatenate str (not \"int\") to str",
+      "description": "describe_quantity 把字符串前缀与整数数量直接相加，str + int 触发 TypeError",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-run-R6",
+      "file": "python/runtime_01_service_pipeline.py",
+      "case": "R6",
+      "line": 263,
+      "exception": "ValueError",
+      "message_pattern": "invalid literal for int() with base 10: '12,500'",
+      "description": "渠道数量串带千分位逗号，parse_quantity 执行 int('12,500') 失败",
+      "language": "python",
+      "kind": "runtime"
+    },
+    {
+      "id": "py-logic-L1",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L1",
+      "expected": "2067.00",
+      "actual": "1767.00",
+      "description": "循环上界写成 len(items) - 1，漏算最后一件商品 F-600 的 300.00 库存价值",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "py-logic-L2",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L2",
+      "expected": "344.50",
+      "actual": "344.00",
+      "description": "求平均单价时用整除 // 截断，正确结果应为 2067/6 = 344.5",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "py-logic-L3",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L3",
+      "expected": "4.50",
+      "actual": "42.00",
+      "description": "accumulate_ledger 使用可变默认参数 ledger=[]，第二次调用累积了第一批流水 37.50",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "py-logic-L4",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L4",
+      "expected": "450.00",
+      "actual": "500.00",
+      "description": "包邮/折扣边界用 > 而非 >=，小计恰好 500.00 时没有享受 10% 批量折扣",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "py-logic-L5",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L5",
+      "expected": "-12.00",
+      "actual": "0.00",
+      "description": "best_margin 以 0 作为 max 初值，而所有清仓毛利均为负数，结果错误地返回 0",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "py-logic-L6",
+      "file": "python/logic_01_inventory_report.py",
+      "case": "L6",
+      "expected": "205.00",
+      "actual": "75.00",
+      "description": "小计计算漏乘数量，只累加单价 25+40+10，未得到 3*25+2*40+5*10",
+      "language": "python",
+      "kind": "logic"
+    },
+    {
+      "id": "js-syn-01",
+      "file": "javascript/syntax_01_missing_paren.js",
+      "line": 154,
+      "error_type": "missing_closing_paren",
+      "diagnostic_pattern": "missing ) after argument list",
+      "description": "轮库分仓规划中多行调用 pickWarehouse(...) 的最后一个实参后缺少右括号，解析器在实参行报错",
+      "language": "javascript",
+      "kind": "syntax"
+    },
+    {
+      "id": "js-syn-02",
+      "file": "javascript/syntax_02_invalid_operator.js",
+      "line": 196,
+      "error_type": "invalid_operator",
+      "diagnostic_pattern": "Unexpected token '*'",
+      "description": "退货结算中把加号与乘号连写成 +* 非法运算符序列，解析器在星号处报错",
+      "language": "javascript",
+      "kind": "syntax"
+    },
+    {
+      "id": "js-run-R1",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R1",
+      "line": 184,
+      "exception": "TypeError",
+      "message_pattern": "Cannot read properties of undefined (reading 'name')",
+      "description": "迁移订单缺少 customer 字段，解析客户姓名时读取 undefined 的属性",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-run-R2",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R2",
+      "line": 189,
+      "exception": "ReferenceError",
+      "message_pattern": "loyaltyCreditCents is not defined",
+      "description": "积分抵扣计算引用了未声明的标识符 loyaltyCreditCents（正确变量名为 loyaltyCreditsCents）",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-run-R3",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R3",
+      "line": 196,
+      "exception": "RangeError",
+      "message_pattern": "Invalid array length",
+      "description": "仓容 40 已占用 41，空闲槽位算出 -1 后用于 new Array(-1)，触发非法数组长度",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-run-R4",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R4",
+      "line": 202,
+      "exception": "TypeError",
+      "message_pattern": "handler is not a function",
+      "description": "折扣策略字段由配置误写成数字 42，作为函数调用时抛出 TypeError",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-run-R5",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R5",
+      "line": 207,
+      "exception": "SyntaxError",
+      "message_pattern": "Expected double-quoted property name in JSON",
+      "description": "旧系统导入的出货清单 JSON 带尾随逗号，JSON.parse 抛出 SyntaxError",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-run-R6",
+      "file": "javascript/runtime_01_order_pipeline.js",
+      "case": "R6",
+      "line": 214,
+      "exception": "TypeError",
+      "message_pattern": "Cannot destructure property 'zoneCode'",
+      "description": "仓库配置对象缺失，解构 undefined 上的 zoneCode 触发 TypeError",
+      "language": "javascript",
+      "kind": "runtime"
+    },
+    {
+      "id": "js-logic-L1",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L1",
+      "expected": "149.02",
+      "actual": "106.72",
+      "description": "合计循环上界写成 lines.length - 1，漏算最后一件商品（显示器支架）",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "js-logic-L2",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L2",
+      "expected": "29.55",
+      "actual": "28.00",
+      "description": "促销价解析用 parseInt 丢弃小数分位，12.75 变成 12、8.40 变成 8",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "js-logic-L3",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L3",
+      "expected": "76.50",
+      "actual": "72.00",
+      "description": "循环中用 var 声明 rate 并被回调闭包捕获，所有行都按最后一档 10% 折扣计算",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "js-logic-L4",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L4",
+      "expected": "100.00",
+      "actual": "9.99",
+      "description": "价格字符串使用 Array.prototype.sort() 默认字典序排序，取末位得到 9.99 而非真实最高价 100.00",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "js-logic-L5",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L5",
+      "expected": "0.3",
+      "actual": "0.30000000000000004",
+      "description": "0.1 + 0.2 的浮点求和无四舍五入，输出 IEEE-754 精度误差结果",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "js-logic-L6",
+      "file": "javascript/logic_01_cart_report.js",
+      "case": "L6",
+      "expected": "200.00",
+      "actual": "170.00",
+      "description": "松散比较 value == false 把字符串 \"0\" 当作假值，误套用 15% 默认折扣",
+      "language": "javascript",
+      "kind": "logic"
+    },
+    {
+      "id": "java-syn-01",
+      "file": "java/Syntax01MissingSemicolon.java",
+      "line": 224,
+      "error_type": "missing_semicolon",
+      "diagnostic_pattern": "';' expected",
+      "description": "仓库补货计划中，Product.getDailyDemand() 的 return 语句末尾缺少分号；javac 1.8 报 \"Syntax01MissingSemicolon.java:224: error: ';' expected\"，补上分号后整个文件可正常编译",
+      "language": "java",
+      "kind": "syntax"
+    },
+    {
+      "id": "java-syn-02",
+      "file": "java/Syntax02MissingParen.java",
+      "line": 199,
+      "error_type": "missing_close_paren",
+      "diagnostic_pattern": "')' expected",
+      "description": "发票审批流程 requiresManagerApproval() 的 if 条件缺少右括号；javac 1.8 报 \"Syntax02MissingParen.java:199: error: ')' expected\"，补上右括号后整个文件可正常编译",
+      "language": "java",
+      "kind": "syntax"
+    },
+    {
+      "id": "java-run-R1",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R1",
+      "line": 67,
+      "exception": "NullPointerException",
+      "message_pattern": "has no customer attached",
+      "description": "订单 ORD-9001 的 customer 引用丢失，requireCustomer 在计算总价时对空客户抛 NullPointerException，异常未被捕获",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-run-R2",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R2",
+      "line": 96,
+      "exception": "ArrayIndexOutOfBoundsException",
+      "message_pattern": "3",
+      "description": "订单行只有 3 个字段却按 4 个字段解析（normalizeField 访问 fields[3]）触发数组越界；Java 8 的异常消息就是越界下标 3",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-run-R3",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R3",
+      "line": 112,
+      "exception": "NumberFormatException",
+      "message_pattern": "is not a valid integer",
+      "description": "数量字段带千分位 \"12,500\"，自制整数解析器 parseQuantity 在遇到逗号时抛 NumberFormatException",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-run-R4",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R4",
+      "line": 147,
+      "exception": "ArithmeticException",
+      "message_pattern": "/ by zero",
+      "description": "夜间订单快照为空，averageOrderQuantity 用有效订单数 0 做整数除法，抛 ArithmeticException: / by zero",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-run-R5",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R5",
+      "line": 193,
+      "exception": "ClassCastException",
+      "message_pattern": "cannot be cast to java.lang.Integer",
+      "description": "异构属性表里 priority 存的是字符串 \"HIGH\"，resolvePriority 却强转为 Integer，抛 ClassCastException",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-run-R6",
+      "file": "java/Runtime01OrderPipeline.java",
+      "case": "R6",
+      "line": 228,
+      "exception": "NoSuchElementException",
+      "message_pattern": "order queue drained",
+      "description": "装运计划假定待处理队列有 4 个订单，实际只有 2 个，nextPending 在迭代器耗尽时抛 NoSuchElementException",
+      "language": "java",
+      "kind": "runtime"
+    },
+    {
+      "id": "java-logic-L1",
+      "file": "java/Logic01CartReport.java",
+      "case": "L1",
+      "expected": "8298.25",
+      "actual": "8298",
+      "description": "平均单价用整数除法计算，33193/4 的小数部分被截断，应为 8298.25 却输出 8298",
+      "language": "java",
+      "kind": "logic"
+    },
+    {
+      "id": "java-logic-L2",
+      "file": "java/Logic01CartReport.java",
+      "case": "L2",
+      "expected": "350",
+      "actual": "0",
+      "description": "优惠码用 == 比较两个运行时构造的字符串（StringBuilder 与 new String 生成），引用不同导致匹配失败，折扣 350 分变成 0",
+      "language": "java",
+      "kind": "logic"
+    },
+    {
+      "id": "java-logic-L3",
+      "file": "java/Logic01CartReport.java",
+      "case": "L3",
+      "expected": "2499500000",
+      "actual": "-1795467296",
+      "description": "批发订单 4999 分 * 500000 件用 int 相乘，超出 2^31 溢出成负数，正确总额为 2499500000 分",
+      "language": "java",
+      "kind": "logic"
+    },
+    {
+      "id": "java-logic-L4",
+      "file": "java/Logic01CartReport.java",
+      "case": "L4",
+      "expected": "33193",
+      "actual": "31294",
+      "description": "legacyReportSubtotalCents 循环上界写成 items.size() - 1，漏算最后一行 Mouse（1899 分），合计少了 1899",
+      "language": "java",
+      "kind": "logic"
+    },
+    {
+      "id": "java-logic-L5",
+      "file": "java/Logic01CartReport.java",
+      "case": "L5",
+      "expected": "499",
+      "actual": "999",
+      "description": "shippingCents 的 switch 中 STANDARD 分支缺少 break，落穿到 EXPRESS 分支，运费从 499 分变成 999 分",
+      "language": "java",
+      "kind": "logic"
+    },
+    {
+      "id": "java-logic-L6",
+      "file": "java/Logic01CartReport.java",
+      "case": "L6",
+      "expected": "Cable",
+      "actual": "Monitor",
+      "description": "sortCheapestFirst 的 Comparator 参数顺序写反，按单价降序排序，首元素变成最贵的 Monitor 而不是最便宜的 Cable",
+      "language": "java",
+      "kind": "logic"
+    }
+  ]
+}

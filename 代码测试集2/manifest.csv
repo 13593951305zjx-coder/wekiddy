@@ -1,0 +1,43 @@
+﻿id,language,kind,file,case,line,error_type,exception,expected,actual,description
+py-syn-01,python,syntax,python/syntax_01_missing_colon.py,,137,missing_colon,,,,summarize_batches 中 if 语句头部缺少结尾冒号，解析器在 if 行报 expected ':'
+py-syn-02,python,syntax,python/syntax_02_literal_assignment.py,,141,literal_assignment,,,,"allocate_supplier_budget 把字符串字面量 ""reorder_total"" 当作赋值目标，应为变量 reorder_total"
+py-run-R1,python,runtime,python/runtime_01_service_pipeline.py,R1,123,,IndexError,,,订单路由索引等于仓库行数，pick_primary_warehouse 访问 rows[index] 越界
+py-run-R2,python,runtime,python/runtime_01_service_pipeline.py,R2,150,,KeyError,,,新上架 SKU-1005 未登记进定价表，resolve_price_band 查表触发 KeyError
+py-run-R3,python,runtime,python/runtime_01_service_pipeline.py,R3,190,,ZeroDivisionError,,,订单行列表为空，average_line_value 用 0 做除数触发浮点除零
+py-run-R4,python,runtime,python/runtime_01_service_pipeline.py,R4,220,,AttributeError,,,客户 display_name 为 None，format_customer_name 直接调用 .strip()
+py-run-R5,python,runtime,python/runtime_01_service_pipeline.py,R5,238,,TypeError,,,describe_quantity 把字符串前缀与整数数量直接相加，str + int 触发 TypeError
+py-run-R6,python,runtime,python/runtime_01_service_pipeline.py,R6,263,,ValueError,,,"渠道数量串带千分位逗号，parse_quantity 执行 int('12,500') 失败"
+py-logic-L1,python,logic,python/logic_01_inventory_report.py,L1,,,,2067.00,1767.00,循环上界写成 len(items) - 1，漏算最后一件商品 F-600 的 300.00 库存价值
+py-logic-L2,python,logic,python/logic_01_inventory_report.py,L2,,,,344.50,344.00,求平均单价时用整除 // 截断，正确结果应为 2067/6 = 344.5
+py-logic-L3,python,logic,python/logic_01_inventory_report.py,L3,,,,4.50,42.00,accumulate_ledger 使用可变默认参数 ledger=[]，第二次调用累积了第一批流水 37.50
+py-logic-L4,python,logic,python/logic_01_inventory_report.py,L4,,,,450.00,500.00,包邮/折扣边界用 > 而非 >=，小计恰好 500.00 时没有享受 10% 批量折扣
+py-logic-L5,python,logic,python/logic_01_inventory_report.py,L5,,,,-12.00,0.00,best_margin 以 0 作为 max 初值，而所有清仓毛利均为负数，结果错误地返回 0
+py-logic-L6,python,logic,python/logic_01_inventory_report.py,L6,,,,205.00,75.00,小计计算漏乘数量，只累加单价 25+40+10，未得到 3*25+2*40+5*10
+js-syn-01,javascript,syntax,javascript/syntax_01_missing_paren.js,,154,missing_closing_paren,,,,轮库分仓规划中多行调用 pickWarehouse(...) 的最后一个实参后缺少右括号，解析器在实参行报错
+js-syn-02,javascript,syntax,javascript/syntax_02_invalid_operator.js,,196,invalid_operator,,,,退货结算中把加号与乘号连写成 +* 非法运算符序列，解析器在星号处报错
+js-run-R1,javascript,runtime,javascript/runtime_01_order_pipeline.js,R1,184,,TypeError,,,迁移订单缺少 customer 字段，解析客户姓名时读取 undefined 的属性
+js-run-R2,javascript,runtime,javascript/runtime_01_order_pipeline.js,R2,189,,ReferenceError,,,积分抵扣计算引用了未声明的标识符 loyaltyCreditCents（正确变量名为 loyaltyCreditsCents）
+js-run-R3,javascript,runtime,javascript/runtime_01_order_pipeline.js,R3,196,,RangeError,,,仓容 40 已占用 41，空闲槽位算出 -1 后用于 new Array(-1)，触发非法数组长度
+js-run-R4,javascript,runtime,javascript/runtime_01_order_pipeline.js,R4,202,,TypeError,,,折扣策略字段由配置误写成数字 42，作为函数调用时抛出 TypeError
+js-run-R5,javascript,runtime,javascript/runtime_01_order_pipeline.js,R5,207,,SyntaxError,,,旧系统导入的出货清单 JSON 带尾随逗号，JSON.parse 抛出 SyntaxError
+js-run-R6,javascript,runtime,javascript/runtime_01_order_pipeline.js,R6,214,,TypeError,,,仓库配置对象缺失，解构 undefined 上的 zoneCode 触发 TypeError
+js-logic-L1,javascript,logic,javascript/logic_01_cart_report.js,L1,,,,149.02,106.72,合计循环上界写成 lines.length - 1，漏算最后一件商品（显示器支架）
+js-logic-L2,javascript,logic,javascript/logic_01_cart_report.js,L2,,,,29.55,28.00,促销价解析用 parseInt 丢弃小数分位，12.75 变成 12、8.40 变成 8
+js-logic-L3,javascript,logic,javascript/logic_01_cart_report.js,L3,,,,76.50,72.00,循环中用 var 声明 rate 并被回调闭包捕获，所有行都按最后一档 10% 折扣计算
+js-logic-L4,javascript,logic,javascript/logic_01_cart_report.js,L4,,,,100.00,9.99,价格字符串使用 Array.prototype.sort() 默认字典序排序，取末位得到 9.99 而非真实最高价 100.00
+js-logic-L5,javascript,logic,javascript/logic_01_cart_report.js,L5,,,,0.3,0.30000000000000004,0.1 + 0.2 的浮点求和无四舍五入，输出 IEEE-754 精度误差结果
+js-logic-L6,javascript,logic,javascript/logic_01_cart_report.js,L6,,,,200.00,170.00,"松散比较 value == false 把字符串 ""0"" 当作假值，误套用 15% 默认折扣"
+java-syn-01,java,syntax,java/Syntax01MissingSemicolon.java,,224,missing_semicolon,,,,"仓库补货计划中，Product.getDailyDemand() 的 return 语句末尾缺少分号；javac 1.8 报 ""Syntax01MissingSemicolon.java:224: error: ';' expected""，补上分号后整个文件可正常编译"
+java-syn-02,java,syntax,java/Syntax02MissingParen.java,,199,missing_close_paren,,,,"发票审批流程 requiresManagerApproval() 的 if 条件缺少右括号；javac 1.8 报 ""Syntax02MissingParen.java:199: error: ')' expected""，补上右括号后整个文件可正常编译"
+java-run-R1,java,runtime,java/Runtime01OrderPipeline.java,R1,67,,NullPointerException,,,订单 ORD-9001 的 customer 引用丢失，requireCustomer 在计算总价时对空客户抛 NullPointerException，异常未被捕获
+java-run-R2,java,runtime,java/Runtime01OrderPipeline.java,R2,96,,ArrayIndexOutOfBoundsException,,,订单行只有 3 个字段却按 4 个字段解析（normalizeField 访问 fields[3]）触发数组越界；Java 8 的异常消息就是越界下标 3
+java-run-R3,java,runtime,java/Runtime01OrderPipeline.java,R3,112,,NumberFormatException,,,"数量字段带千分位 ""12,500""，自制整数解析器 parseQuantity 在遇到逗号时抛 NumberFormatException"
+java-run-R4,java,runtime,java/Runtime01OrderPipeline.java,R4,147,,ArithmeticException,,,夜间订单快照为空，averageOrderQuantity 用有效订单数 0 做整数除法，抛 ArithmeticException: / by zero
+java-run-R5,java,runtime,java/Runtime01OrderPipeline.java,R5,193,,ClassCastException,,,"异构属性表里 priority 存的是字符串 ""HIGH""，resolvePriority 却强转为 Integer，抛 ClassCastException"
+java-run-R6,java,runtime,java/Runtime01OrderPipeline.java,R6,228,,NoSuchElementException,,,装运计划假定待处理队列有 4 个订单，实际只有 2 个，nextPending 在迭代器耗尽时抛 NoSuchElementException
+java-logic-L1,java,logic,java/Logic01CartReport.java,L1,,,,8298.25,8298,平均单价用整数除法计算，33193/4 的小数部分被截断，应为 8298.25 却输出 8298
+java-logic-L2,java,logic,java/Logic01CartReport.java,L2,,,,350,0,优惠码用 == 比较两个运行时构造的字符串（StringBuilder 与 new String 生成），引用不同导致匹配失败，折扣 350 分变成 0
+java-logic-L3,java,logic,java/Logic01CartReport.java,L3,,,,2499500000,-1795467296,批发订单 4999 分 * 500000 件用 int 相乘，超出 2^31 溢出成负数，正确总额为 2499500000 分
+java-logic-L4,java,logic,java/Logic01CartReport.java,L4,,,,33193,31294,legacyReportSubtotalCents 循环上界写成 items.size() - 1，漏算最后一行 Mouse（1899 分），合计少了 1899
+java-logic-L5,java,logic,java/Logic01CartReport.java,L5,,,,499,999,shippingCents 的 switch 中 STANDARD 分支缺少 break，落穿到 EXPRESS 分支，运费从 499 分变成 999 分
+java-logic-L6,java,logic,java/Logic01CartReport.java,L6,,,,Cable,Monitor,sortCheapestFirst 的 Comparator 参数顺序写反，按单价降序排序，首元素变成最贵的 Monitor 而不是最便宜的 Cable
