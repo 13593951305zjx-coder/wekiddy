@@ -1,0 +1,14 @@
+audio_llm_backend/.env
+audio_llm_backend/.venv/
+**/__pycache__/
+**/*.pyc
+audio_llm_backend/data/audio/*
+audio_llm_backend/data/records/*
+audio_llm_backend/data/analysis/*
+!**/.gitkeep
+logs/
+downloads/
+models/
+tools/ollama/
+backups/
+verification/
